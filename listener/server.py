@@ -2,12 +2,13 @@ import datetime
 import socket
 import uuid
 
-from logger.models import Packet
+from logger.models import Packet, LapData
 
 from packets.base import UdpPacket
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 server_socket.bind(('', 20777))
+
 print('############### SERVER STARTED ###############')
 while True:
     message, address = server_socket.recvfrom(10240)
@@ -18,4 +19,8 @@ while True:
             payload=bytes.hex(message),
             packet_id=telemetry.header.packet_id,
             timestamp=datetime.datetime.now().timestamp()
+        ).execute()
+    if telemetry.header.packet_id == 2:
+        LapData.insert(
+            **vars(telemetry.body)
         ).execute()

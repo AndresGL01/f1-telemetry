@@ -23,3 +23,21 @@ def motion_stc():
             ]
         )
     )
+
+
+def session_stc():
+    ...
+
+
+def lap_data_stc():
+    return struct.Struct(
+        st.fmt_str(
+            [
+                st.UINT32, st.UINT32, st.UINT16, st.UCHAR8, st.UINT16, st.UCHAR8, st.UINT16,
+                st.UINT16, st.FLOAT, st.FLOAT, st.FLOAT, st.UCHAR8, st.UCHAR8, st.UCHAR8, st.UCHAR8,
+                st.UCHAR8, st.UCHAR8, st.UCHAR8, st.UCHAR8, st.UCHAR8, st.UCHAR8, st.UCHAR8,
+                st.UCHAR8, st.UCHAR8, st.UCHAR8, st.UCHAR8, st.UINT16, st.UINT16, st.UCHAR8,
+                st.UCHAR8, st.UCHAR8
+            ]
+        )
+    )

@@ -39,8 +39,10 @@ class UdpPacket:
     def _decode(self):
         header_parser = packet_header_stc()
         header = UdpHeader(header_parser.unpack(self._raw[:header_parser.size]))
-        body = UdpBody.create(header.packet_id, self._raw[header_parser.size:])
-        return header, body
+        if header.packet_id in [2]:  # Remove when all bodies are added
+            body = UdpBody.create(header.packet_id, self._raw[header_parser.size:])
+            return header, body
+        return header, None
 
     def __str__(self):
         return f'UdpPacket(packed_id -> {self.header.packet_id})'
