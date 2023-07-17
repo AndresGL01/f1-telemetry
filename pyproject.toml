@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "f1-telemetry"
+version = "0.1.0"
+description = ""
+authors = ["Andres Garrido <andreslp0001@gmail.com>"]
+readme = "README.md"
+packages = [{include = "f1_telemetry"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
