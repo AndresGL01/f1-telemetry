@@ -16,7 +16,8 @@ class StructTypes(Enum):
     UINT64 = 'Q'
     FLOAT = 'f'
     DOUBLE = 'd'
-    ARR = 's'
+    CHAR_48_BYTES = '48s'
+
 
     @classmethod
     def fmt_str(cls, fmt: list, byte_order: str = '<') -> str:

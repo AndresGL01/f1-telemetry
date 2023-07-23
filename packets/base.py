@@ -1,5 +1,4 @@
 import abc
-import struct
 
 from packets.packet_types import BodyType
 from parsers.structures import packet_header_stc
@@ -27,6 +26,8 @@ class UdpBody(abc.ABC):
     def create(cls, packet_id: int, raw: bytes):
         body_type = BodyType.options.get(packet_id)
         body_stc = body_type.structure
+        if getattr(body_type, 'have_sub_stc'):
+            return body_type(body_stc(raw).unpack(raw[:body_stc(raw).size]))
         return body_type(body_stc().unpack(raw[:body_stc().size]))
 
 
@@ -39,10 +40,8 @@ class UdpPacket:
     def _decode(self):
         header_parser = packet_header_stc()
         header = UdpHeader(header_parser.unpack(self._raw[:header_parser.size]))
-        if header.packet_id in [2]:  # Remove when all bodies are added
-            body = UdpBody.create(header.packet_id, self._raw[header_parser.size:])
-            return header, body
-        return header, None
+        body = UdpBody.create(header.packet_id, self._raw[header_parser.size:])
+        return header, body
 
     def __str__(self):
         return f'UdpPacket(packed_id -> {self.header.packet_id})'
